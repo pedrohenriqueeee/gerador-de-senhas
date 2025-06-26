@@ -10,20 +10,44 @@
 <body>
   <div class="container">
     <h1>🔐 Gerador de Senhas</h1>
+
+    <select id="mode">
+      <option value="letters">Apenas Letras</option>
+      <option value="numbers">Apenas Números</option>
+      <option value="lettersNumbers">Letras e Números</option>
+      <option value="all">Letras, Números e Símbolos</option>
+    </select>
+
+    <input type="number" id="length" placeholder="Comprimento (ex: 12)" min="4" max="32">
+
     <div class="password-box">
-      <input type="text" id="password" readonly>
+      <input type="text" id="password" readonly placeholder="Clique para gerar senha">
       <button onclick="generatePassword()">Gerar Senha</button>
     </div>
   </div>
 
   <script>
     function generatePassword() {
-      const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}";
+      const mode = document.getElementById("mode").value;
+      const length = parseInt(document.getElementById("length").value) || 12;
+
+      let chars = "";
+      if (mode === "letters") {
+        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      } else if (mode === "numbers") {
+        chars = "0123456789";
+      } else if (mode === "lettersNumbers") {
+        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      } else {
+        chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+[]{}";
+      }
+
       let password = "";
-      for (let i = 0; i < 14; i++) {
+      for (let i = 0; i < length; i++) {
         const index = Math.floor(Math.random() * chars.length);
         password += chars.charAt(index);
       }
+
       document.getElementById("password").value = password;
     }
   </script>
